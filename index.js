@@ -28,12 +28,14 @@ app.use(express.json());
 import usersRoutes from './routes/users.js';
 import partnersRoutes from './routes/partners.js';
 import projectsRoutes from './routes/projects.js';
+import membersRoutes from './routes/members.js';
 
 
 
 app.use('/api/users', usersRoutes);
 app.use('/api/partners', partnersRoutes);
 app.use('/api/projects', projectsRoutes);
+app.use('/api/members', membersRoutes);
 
 // Démarrage du serveur 
 https.createServer(sslOptions, app).listen(3008, () => {

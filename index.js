@@ -9,8 +9,8 @@ const PORT = 3008;
 
 // Lire les fichiers du certificat
 const sslOptions = {
-    key: fs.readFileSync(path.resolve('key.pem')),
-    cert: fs.readFileSync(path.resolve('cert.pem')),
+    key: fs.readFileSync('/etc/letsencrypt/live/ton-domaine.fr/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/ton-domaine.fr/fullchain.pem'),
   };
   
 app.use('/uploads', express.static(path.resolve('uploads')));

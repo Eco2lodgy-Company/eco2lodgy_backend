@@ -17,7 +17,7 @@ export const createProject = async (req, res) => {
     const logo_url = `/uploads/${file.filename}`;
 
     const result = await pool.query(
-      `INSERT INTO projects (title, description,image_url,projectType, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      `INSERT INTO projects (title, description,image_url,project_type, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [title, description || null,image_url,projectType, user_id]
     );
 

@@ -14,10 +14,12 @@ const PORT = 3000;
 app.use(express.json());
 
 import usersRoutes from './routes/users.js';
+import partnersRoutes from './routes/partners.js';
 
 
 
 app.use('/api/users', usersRoutes);
+app.use('/api/partners', partnersRoutes);
 
 
 // Démarrage du serveur 

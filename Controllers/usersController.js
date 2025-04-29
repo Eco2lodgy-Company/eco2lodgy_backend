@@ -96,3 +96,55 @@ export const getUsers = async (req, res) => {
       return res.status(500).json({ error: 'Erreur serveur' });
     }
   };
+
+
+
+  export const getUserByEmail = async (req, res) => {
+    const { email } = req.params;
+  
+    if (!email) {
+      return res.status(400).json({ error: 'Email requis.' });
+    }
+  
+    try {
+      const result = await pool.query(
+        'SELECT id, username, email, role FROM users WHERE email = $1',
+        [email]
+      );
+  
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Utilisateur non trouvé.' });
+      }
+  
+      return res.status(200).json({ user: result.rows[0] });
+  
+    } catch (error) {
+      console.error('Erreur lors de la récupération de l’utilisateur :', error);
+      return res.status(500).json({ error: 'Erreur serveur.' });
+    }
+  };
+  
+
+
+  export const deleteUserByEmail = async (req, res) => {
+    const { email } = req.params;
+  
+    if (!email) {
+      return res.status(400).json({ error: 'Email requis.' });
+    }
+  
+    try {
+      const result = await pool.query('DELETE FROM users WHERE email = $1 RETURNING *', [email]);
+  
+      if (result.rowCount === 0) {
+        return res.status(404).json({ error: 'Utilisateur non trouvé.' });
+      }
+  
+      return res.status(200).json({ message: 'Utilisateur supprimé avec succès.', user: result.rows[0] });
+  
+    } catch (error) {
+      console.error('Erreur lors de la suppression de l’utilisateur :', error);
+      return res.status(500).json({ error: 'Erreur serveur.' });
+    }
+  };
+  

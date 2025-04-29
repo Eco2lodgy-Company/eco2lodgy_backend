@@ -4,10 +4,10 @@ import express from 'express';
 import {
  getUsers,
   createUser,
-//   getUserByEmail,
+ getUserByEmail,
   login,
 //   updateUser,
-//   deleteUser
+deleteUserByEmail
 } from '../Controllers/usersController.js'; 
   
 const router = express.Router();
@@ -15,8 +15,8 @@ const router = express.Router();
 router.get('/users', getUsers);
 router.post('/', createUser);
 router.post('/login', login);
-// router.get('/UserProfile/:email', getUserByEmail);
+router.get('/user/:email', getUserByEmail);
 // router.put('/:id', updateUser);
-// router.delete('/:id', deleteUser);
+router.delete('/:email', deleteUserByEmail);
 
 export default router;

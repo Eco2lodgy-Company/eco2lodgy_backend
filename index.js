@@ -2,6 +2,7 @@ import express from 'express';
 //import cors from 'cors';
 const app = express();
 const PORT = 3008;
+app.use('/uploads', express.static(path.resolve('uploads')));
 
 // // Middleware pour gérer les CORS
 // app.use(cors({

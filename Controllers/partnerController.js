@@ -31,3 +31,20 @@ export const createPartner = async (req, res) => {
     res.status(500).json({ error: 'Erreur serveur.' });
   }
 };
+
+
+
+// recuperation de tout les partenaires
+
+export const getPartners = async (req, res) => {
+    try {
+      const result = await pool.query('SELECT * from partners');
+  
+      return res.status(200).json({
+        users: result.rows
+      });
+    } catch (error) {
+      console.error('Erreur lors de la récupération des utilisateurs :', error);
+      return res.status(500).json({ error: 'Erreur serveur' });
+    }
+  };

@@ -2,12 +2,13 @@
 
 import express from 'express';
 import {
-    createPartner
+    createPartner,
+    getPartners
 } from '../Controllers/partnerController.js'; 
 import upload from '../midleware/upload.js';
 const router = express.Router();
 
-// router.get('/users', getUsers);
+router.get('/', getPartners);
 router.post('/',upload.single('image'), createPartner);
 // router.post('/login', login);
 // router.get('/:email', getUserByEmail);

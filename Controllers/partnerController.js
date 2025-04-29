@@ -48,3 +48,58 @@ export const getPartners = async (req, res) => {
       return res.status(500).json({ error: 'Erreur serveur' });
     }
   };
+
+
+  // recuperation d'un partenaire par son id
+
+  export const partnerById = async (req, res) => {
+    const { id } = req.params;
+  
+    if (!id) {
+      return res.status(400).json({ error: 'id requis.' });
+    }
+  
+    try {
+      const result = await pool.query(
+        'SELECT * from partners WHERE id = $1',
+        [id]
+      );
+  
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: 'Utilisateur non trouvé.' });
+      }
+  
+      return res.status(200).json({ partener: result.rows[0] });
+  
+    } catch (error) {
+      console.error('Erreur lors de la récupération de l’utilisateur :', error);
+      return res.status(500).json({ error: 'Erreur serveur.' });
+    }
+  };
+
+
+  // Suppression d'un partenaire par son id
+
+  export const deleteById = async (req, res) => {
+    const { id } = req.params;
+  
+    if (!id) {
+      return res.status(400).json({ error: 'id requis.' });
+    }
+  
+    try {
+      const result = await pool.query('DELETE FROM partners WHERE id = $1 RETURNING *', [id]);
+  
+      if (result.rowCount === 0) {
+        return res.status(404).json({ error: 'partenaire non trouvé.' });
+      }
+  
+      return res.status(200).json({ message: 'partenaire supprimé avec succès.', user: result.rows[0] });
+  
+    } catch (error) {
+      console.error('Erreur lors de la suppression du patenaire :', error);
+      return res.status(500).json({ error: 'Erreur serveur.' });
+    }
+  };
+  
+  

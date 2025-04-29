@@ -3,7 +3,9 @@
 import express from 'express';
 import {
     createPartner,
-    getPartners
+    getPartners,
+    partnerById,
+    deleteById
 } from '../Controllers/partnerController.js'; 
 import upload from '../midleware/upload.js';
 const router = express.Router();
@@ -11,8 +13,8 @@ const router = express.Router();
 router.get('/', getPartners);
 router.post('/',upload.single('image'), createPartner);
 // router.post('/login', login);
-// router.get('/:email', getUserByEmail);
+router.get('/:id', partnerById);
 // // router.put('/:id', updateUser);
-// router.delete('/:email', deleteUserByEmail);
+router.delete('/:id',deleteById);
 
 export default router;

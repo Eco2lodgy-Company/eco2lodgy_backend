@@ -1,8 +1,18 @@
 import express from 'express';
-import path from 'path'; 
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
+
 //import cors from 'cors';
 const app = express();
 const PORT = 3008;
+
+// Lire les fichiers du certificat
+const sslOptions = {
+    key: fs.readFileSync(path.resolve('key.pem')),
+    cert: fs.readFileSync(path.resolve('cert.pem')),
+  };
+  
 app.use('/uploads', express.static(path.resolve('uploads')));
 
 // // Middleware pour gérer les CORS
@@ -25,6 +35,6 @@ app.use('/api/partners', partnersRoutes);
 
 
 // Démarrage du serveur 
-app.listen(PORT, () => {
-  console.log(`Serveur démarré sur http://localhost:${PORT}`);
-});
+https.createServer(sslOptions, app).listen(3008, () => {
+    console.log('Serveur HTTPS en écoute sur https://localhost:3008');
+  });

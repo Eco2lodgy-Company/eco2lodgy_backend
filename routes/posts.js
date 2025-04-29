@@ -9,7 +9,7 @@ import {
    
     
     
-} from '../Controllers/memberController.js'; 
+} from '../Controllers/postController.js'; 
 import upload from '../midleware/upload.js';
 const router = express.Router();
 

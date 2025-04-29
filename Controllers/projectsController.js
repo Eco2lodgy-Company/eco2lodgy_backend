@@ -69,7 +69,7 @@ export const getProjects = async (req, res) => {
         return res.status(404).json({ error: 'projet non trouvé.' });
       }
   
-      return res.status(200).json({ partener: result.rows[0] });
+      return res.status(200).json({ projet: result.rows[0] });
   
     } catch (error) {
       console.error('Erreur lors de la récupération du projet :', error);

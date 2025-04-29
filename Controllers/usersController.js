@@ -1,6 +1,45 @@
 import pool from '../database/db.js'; // assure-toi que db.js exporte correctement le pool
 import bcrypt from 'bcrypt';
 
+
+export const createUser = async (req, res) => {
+    const { username, email, password } = req.body;
+  
+    // Vérification des champs requis
+    if (!username || !email || !password) {
+      return res.status(400).json({ error: "Tous les champs sont requis." });
+    }
+  
+    try {
+      // Vérifie si l'email existe déjà
+      const emailCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+      if (emailCheck.rows.length > 0) {
+        return res.status(400).json({ error: "Cet email est déjà utilisé." });
+      }
+  
+      // Hash du mot de passe
+      const saltRounds = 10;
+      const password_hash = await bcrypt.hash(password, saltRounds);
+  
+      // Insertion dans la base
+      const result = await pool.query(
+        'INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id, username, email',
+        [username, email, password_hash]
+      );
+  
+      const newUser = result.rows[0];
+  
+      return res.status(201).json({
+        message: "Utilisateur créé avec succès.",
+        user: newUser
+      });
+  
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Erreur lors de la création de l'utilisateur." });
+    }
+  };
+
 export const login = async (req, res) => {
   const { email, password } = req.body;
 

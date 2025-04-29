@@ -15,7 +15,7 @@ const router = express.Router();
 router.get('/users', getUsers);
 router.post('/', createUser);
 router.post('/login', login);
-router.get('search/:email', getUserByEmail);
+router.get('/user/:email', getUserByEmail);
 // router.put('/:id', updateUser);
 router.delete('/:email', deleteUserByEmail);
 

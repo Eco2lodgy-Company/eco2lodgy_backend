@@ -17,7 +17,7 @@ export const createPartner = async (req, res) => {
     const logo_url = `/uploads/partners/${file.filename}`;
 
     const result = await pool.query(
-      `INSERT INTO partners (name, description,logo_url,website_url, user_id) VALUES ($1, $2, $3, $4) RETURNING *`,
+      `INSERT INTO partners (name, description,logo_url,website_url, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [name, description || null,logo_url,website ||null, user_id]
     );
 

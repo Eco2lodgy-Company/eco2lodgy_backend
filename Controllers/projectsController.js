@@ -14,7 +14,7 @@ export const createProject = async (req, res) => {
       return res.status(400).json({ error: 'Certains champs requis sont manquants.' });
     }
 
-    const logo_url = `/uploads/${file.filename}`;
+    const image_url = `/uploads/${file.filename}`;
 
     const result = await pool.query(
       `INSERT INTO projects (title, description,image_url,project_type, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,

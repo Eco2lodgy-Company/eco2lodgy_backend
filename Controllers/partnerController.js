@@ -41,7 +41,7 @@ export const getPartners = async (req, res) => {
       const result = await pool.query('SELECT * from partners');
   
       return res.status(200).json({
-        users: result.rows
+        partners: result.rows
       });
     } catch (error) {
       console.error('Erreur lors de la récupération des utilisateurs :', error);

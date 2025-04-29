@@ -17,7 +17,7 @@ export const createPost = async (req, res) => {
     const thumbnail_url = `/uploads/${file.filename}`;
 
     const result = await pool.query(
-      `INSERT INTO blog_posts (title,content,thumbnail_url,author, user_id) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *`,
+      `INSERT INTO blog_posts (title,content,thumbnail_url,author, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [title,content,thumbnail_url,author, user_id]
     );
 

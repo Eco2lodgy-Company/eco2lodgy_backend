@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 
 export const createUser = async (req, res) => {
     const { username, email, password } = req.body;
+    console.log(req.body);
   
     // Vérification des champs requis
     if (!username || !email || !password) {

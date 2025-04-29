@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt';
 
 export const createUser = async (req, res) => {
     const { username, email, password } = req.body;
-    console.log(req.body);
   
     // Vérification des champs requis
     if (!username || !email || !password) {
@@ -82,3 +81,18 @@ export const login = async (req, res) => {
     return res.status(500).json({ error: "Erreur lors de la connexion." });
   }
 };
+
+
+
+export const getUsers = async (req, res) => {
+    try {
+      const result = await pool.query('SELECT id, username, email, role FROM users');
+  
+      return res.status(200).json({
+        users: result.rows
+      });
+    } catch (error) {
+      console.error('Erreur lors de la récupération des utilisateurs :', error);
+      return res.status(500).json({ error: 'Erreur serveur' });
+    }
+  };

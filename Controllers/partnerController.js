@@ -14,7 +14,7 @@ export const createPartner = async (req, res) => {
       return res.status(400).json({ error: 'Certains champs requis sont manquants.' });
     }
 
-    const logo_url = `/uploads/partners/${file.filename}`;
+    const logo_url = `/uploads/${file.filename}`;
 
     const result = await pool.query(
       `INSERT INTO partners (name, description,logo_url,website_url, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,

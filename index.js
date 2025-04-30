@@ -3,7 +3,7 @@ import https from 'https';
 import fs from 'fs';
 import path from 'path';
 
-//import cors from 'cors';
+import cors from 'cors';
 const app = express();
 const PORT = 3008;
 
@@ -17,7 +17,7 @@ app.use('/uploads', express.static(path.resolve('uploads')));
 
 // Middleware pour gérer les CORS
 app.use(cors({
-  origin: 'http://localhost:8080', 
+  origin: '*', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));

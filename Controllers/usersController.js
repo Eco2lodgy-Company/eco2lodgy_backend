@@ -70,6 +70,7 @@ export const login = async (req, res) => {
       message: "Connexion réussie.",
       user: {
         id: user.id,
+        username: user.username,
         email: user.email,
         role: user.role,
         // tu peux ajouter d'autres champs ici

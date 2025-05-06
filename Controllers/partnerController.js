@@ -37,6 +37,12 @@ export const updatePartner = async (req, res) => {
   try {
     const { id } = req.params;
     const file = req.file;
+
+    // Vérifier si req.body existe
+    if (!req.body) {
+      return res.status(400).json({ error: 'Corps de la requête manquant.' });
+    }
+
     const { name, description, website, user_id } = req.body;
 
     if (!name || !user_id) {

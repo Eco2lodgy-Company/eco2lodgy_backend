@@ -17,7 +17,7 @@ const router = express.Router();
 router.get('/', getPosts);
 router.post('/',upload.single('image'),createPost);
 router.get('/:id', postById);
- router.put('/:id', updatePost);
+router.put('/:id', updatePost);
 router.delete('/:id',deleteById);
 
 export default router;

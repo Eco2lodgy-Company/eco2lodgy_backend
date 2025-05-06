@@ -5,16 +5,16 @@ import {
     createPartner,
     getPartners,
     partnerById,
-    deleteById
+    deleteById,
+    updatePartner
 } from '../Controllers/partnerController.js'; 
 import upload from '../midleware/upload.js';
 const router = express.Router();
 
 router.get('/', getPartners);
 router.post('/',upload.single('image'), createPartner);
-// router.post('/login', login);
 router.get('/:id', partnerById);
-// // router.put('/:id', updateUser);
+router.put('/:id', updatePartner);
 router.delete('/:id',deleteById);
 
 export default router;

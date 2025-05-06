@@ -5,7 +5,8 @@ import {
     createPost,
     getPosts,
     postById,
-    deleteById
+    deleteById,
+    updatePost
    
     
     
@@ -15,9 +16,8 @@ const router = express.Router();
 
 router.get('/', getPosts);
 router.post('/',upload.single('image'),createPost);
-// router.post('/login', login);
 router.get('/:id', postById);
-// // router.put('/:id', updateUser);
+ router.put('/:id', updatePost);
 router.delete('/:id',deleteById);
 
 export default router;

@@ -33,6 +33,53 @@ export const createPost = async (req, res) => {
 };
 
 
+export const updatePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const file = req.file;
+    const { title, content, author, user_id } = req.body;
+
+    if (!title || !user_id) {
+      return res.status(400).json({ error: 'Certains champs requis sont manquants.' });
+    }
+
+    // Préparer les champs à mettre à jour
+    const updates = {
+      title,
+      content: content || null,
+      author: author || null,
+      user_id
+    };
+
+    // Si un nouveau fichier est fourni, mettre à jour l'URL de la miniature
+    if (file) {
+      updates.thumbnail_url = `/uploads/${file.filename}`;
+    }
+
+    // Construire la requête SQL dynamiquement
+    const fields = Object.keys(updates).map((key, index) => `${key} = $${index + 1}`);
+    const values = Object.values(updates);
+
+    const result = await pool.query(
+      `UPDATE blog_posts SET ${fields.join(', ')} WHERE id = $${fields.length + 1} RETURNING *`,
+      [...values, id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Article non trouvé.' });
+    }
+
+    res.status(200).json({
+      message: 'Article mis à jour avec succès.',
+      data: result.rows[0]
+    });
+
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour de l\'article :', error);
+    res.status(500).json({ error: 'Erreur serveur.' });
+  }
+};
+
 
 // recuperation de tout les posts
 

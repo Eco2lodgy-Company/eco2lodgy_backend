@@ -33,6 +33,53 @@ export const createProject = async (req, res) => {
 };
 
 
+export const updateProject = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const file = req.file;
+    const { title, description, projectType, user_id } = req.body;
+
+    if (!title || !user_id) {
+      return res.status(400).json({ error: 'Certains champs requis sont manquants.' });
+    }
+
+    // Préparer les champs à mettre à jour
+    const updates = {
+      title,
+      description: description || null,
+      project_type: projectType || null,
+      user_id
+    };
+
+    // Si un nouveau fichier est fourni, mettre à jour l'URL de l'image
+    if (file) {
+      updates.image_url = `/uploads/${file.filename}`;
+    }
+
+    // Construire la requête SQL dynamiquement
+    const fields = Object.keys(updates).map((key, index) => `${key} = $${index + 1}`);
+    const values = Object.values(updates);
+
+    const result = await pool.query(
+      `UPDATE projects SET ${fields.join(', ')} WHERE id = $${fields.length + 1} RETURNING *`,
+      [...values, id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Projet non trouvé.' });
+    }
+
+    res.status(200).json({
+      message: 'Projet mis à jour avec succès.',
+      data: result.rows[0]
+    });
+
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour du projet :', error);
+    res.status(500).json({ error: 'Erreur serveur.' });
+  }
+};
+
 
 // recuperation de tout les projets
 

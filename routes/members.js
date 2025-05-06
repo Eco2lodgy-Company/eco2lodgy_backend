@@ -5,7 +5,8 @@ import {
     createMember,
     getMembers,
     memberById,
-    deleteById
+    deleteById,
+    updateMember
     
     
 } from '../Controllers/memberController.js'; 
@@ -14,9 +15,8 @@ const router = express.Router();
 
 router.get('/', getMembers);
 router.post('/',upload.single('image'),createMember);
-// router.post('/login', login);
 router.get('/:id', memberById);
-// // router.put('/:id', updateUser);
+router.put('/:id', updateMember);
 router.delete('/:id',deleteById);
 
 export default router;

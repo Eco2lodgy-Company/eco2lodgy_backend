@@ -3,10 +3,10 @@ import pool from '../database/db.js';
 
 export const createProject = async (req, res) => {
   try {
-    const file = req.file;
-    const { title, description,projectType, user_id } = req.body;
+    const files = req.files; 
+    const { title, description, projectType, user_id } = req.body;
 
-    if (!file) {
+    if (!files || files.length === 0) {
       return res.status(400).json({ error: 'Aucune image fournie.' });
     }
 
@@ -14,23 +14,26 @@ export const createProject = async (req, res) => {
       return res.status(400).json({ error: 'Certains champs requis sont manquants.' });
     }
 
-    const image_url = `/uploads/${file.filename}`;
+    // Crée un tableau d'URLs
+    const image_url = files.map(file => `/uploads/${file.filename}`);
 
     const result = await pool.query(
-      `INSERT INTO projects (title, description,image_url,project_type, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [title, description,image_url,projectType, user_id]
+      `INSERT INTO projects (title, description, image_url, project_type, user_id)
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [title, description, image_url, projectType, user_id]
     );
 
     res.status(201).json({
-      message: 'Image et données enregistrées.',
+      message: 'Images et données enregistrées.',
       data: result.rows[0]
     });
 
   } catch (error) {
-    console.error('Erreur upload image :', error);
+    console.error('Erreur upload images :', error);
     res.status(500).json({ error: 'Erreur serveur.' });
   }
 };
+
 
 
 export const updateProject = async (req, res) => {

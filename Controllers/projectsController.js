@@ -3,7 +3,7 @@ import pool from '../database/db.js';
 
 export const createProject = async (req, res) => {
   try {
-    const files = req.files; 
+    const files = req.files; // changement ici
     const { title, description, projectType, user_id } = req.body;
 
     if (!files || files.length === 0) {
@@ -33,6 +33,7 @@ export const createProject = async (req, res) => {
     res.status(500).json({ error: 'Erreur serveur.' });
   }
 };
+
 
 
 
